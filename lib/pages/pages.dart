@@ -6,4 +6,6 @@ export 'package:app_login/pages/usuarios_page.dart';
 
 export 'package:app_login/pages/chat_page.dart';
 
+export 'package:app_login/pages/perfil_screen.dart';
+
 

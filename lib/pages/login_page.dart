@@ -7,7 +7,7 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffF2F2F2),
+      backgroundColor:Color(0xffF2F2F2), //Colors.grey[300],
       body: SafeArea(
         child: Container(
           height: MediaQuery.of(context).size.height * 0.9,
@@ -17,10 +17,11 @@ class LoginPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget> [
               
-              Logo(titulo: 'Signos Vitales'),
+              const Logo(titulo: 'Signos Vitales'),
               _Form(),
-              Labels(ruta: 'register',titulo: 'Crea una cuenta ahora!', subtitulo: '¿No tienes cuenta?'),
-             const Text('Términos y condiciones de Uso', style: TextStyle(fontWeight: FontWeight.w300),)
+              const Labels(ruta: 'register',titulo: 'Crea una cuenta ahora!', subtitulo: '¿No tienes cuenta?'),
+              const SizedBox(height: 5,),
+             const Text('Términos y condiciones de Uso', style: TextStyle(fontWeight: FontWeight.w400),)
             ],),
           ),
         ),
@@ -63,10 +64,12 @@ class __FormState extends State<_Form> {
             isPassword: true,
             ),
           
-        BotonAzul(
+        BotonInOutPut(
           text: 'Ingresar', 
-          onPressd: () {
-            print(passCtrl);
+          onPressd: () => {
+            print(emailCtrl.text),
+            print(passCtrl.text)
+
           }
           ),
 

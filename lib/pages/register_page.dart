@@ -85,7 +85,7 @@ class __FormState extends State<_Form> {
               isPassword: true,
               ),
             
-          BotonAzul(
+          BotonInOutPut(
             text: 'Registrar', 
             onPressd: () {
               print(passCtrl);

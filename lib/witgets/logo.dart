@@ -18,7 +18,8 @@ class Logo extends StatelessWidget {
           child:Column(
             children: <Widget>[
               
-              Image(image: AssetImage('assets/vitals.jpg')),
+              Icon(Icons.volunteer_activism, size: 150, color: Color.fromRGBO(40, 53, 147, 1),),
+              // Image(image: AssetImage('assets/vitals.jpg')),
               SizedBox(height: 20,),
               Text(titulo, style: TextStyle(fontSize: 30),)
             ],

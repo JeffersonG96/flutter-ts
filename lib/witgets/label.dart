@@ -16,11 +16,12 @@ class Labels extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Column(children: <Widget>[
-        Text(this.subtitulo, style: TextStyle(color: Colors.black87, fontSize:15, fontWeight: FontWeight.w400 ),),
-        SizedBox(height: 10,),
+      child: Column(children:  <Widget>[
+        const SizedBox(height: 10,),
+        Text(this.subtitulo, style: const TextStyle(color: Colors.black87, fontSize:15, fontWeight: FontWeight.w400 ),),
+        const SizedBox(height: 20,),
         GestureDetector(
-          child: Text(this.titulo, style: TextStyle(color: Colors.blue[700], fontSize:20, fontWeight: FontWeight.bold),),
+          child: Text(this.titulo, style: const TextStyle(color: Colors.indigo, fontSize:20, fontWeight: FontWeight.w700),),
           onTap: (){
             Navigator.pushReplacementNamed(context, this.ruta);
           },

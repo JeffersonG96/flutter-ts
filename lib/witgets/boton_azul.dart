@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class BotonAzul extends StatelessWidget {
+class BotonInOutPut extends StatelessWidget {
 
 final String text;
 final Function onPressd;
 
-  const BotonAzul({
+  const BotonInOutPut({
     Key? key, 
   required this.text, 
   required this.onPressd
@@ -17,9 +17,9 @@ final Function onPressd;
     return RaisedButton(
      elevation: 2,
      highlightElevation: 5,
-     color: Colors.blue,
+     color: Color.fromRGBO(40, 53, 147, 1),
      shape: StadiumBorder(),
-     onPressed: () {},
+     onPressed:() => this.onPressd(),
      child: Container(
        width: double.infinity,
        height: 55,
