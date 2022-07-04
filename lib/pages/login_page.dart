@@ -1,5 +1,8 @@
+import 'package:app_login/helpers/mostrar_alerta.dart';
+import 'package:app_login/providers/auth_service.dart';
 import 'package:app_login/witgets/witgets.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 
 class LoginPage extends StatelessWidget {
@@ -45,6 +48,9 @@ class __FormState extends State<_Form> {
 
   @override
   Widget build(BuildContext context) {
+
+    final authService= Provider.of<AuthService>(context);  //Provider desde AuthService
+
     return Container(
       margin: EdgeInsets.only(top: 35),
       padding: EdgeInsets.symmetric(horizontal: 50),
@@ -66,11 +72,20 @@ class __FormState extends State<_Form> {
           
         BotonInOutPut(
           text: 'Ingresar', 
-          onPressd: () => {
-            print(emailCtrl.text),
-            print(passCtrl.text)
+                    //revisar si a presionado el botón "Ingresar" 
+          onPressd: authService.autenticando ? () => {}: () async {
+            FocusScope.of(context).unfocus();
+            final loginok = await authService.login(emailCtrl.text, passCtrl.text);
 
-          }
+            if (loginok) {
+              //*Navegar a la pantalla de HomeScreen
+              Navigator.pushReplacementNamed(context, 'home');
+
+            } else {
+              //Mostrar Alerta si las credenciales no son correctas 
+              mostrarAlerta(context, 'Credenciales Incorrectas', 'Verifique correo electrónico o contraseña');
+            }
+          },
           ),
 
         ],

@@ -16,11 +16,13 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AuthService()),
         ChangeNotifierProvider(create: (_) => BarProvider()),
       ],
+      
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Adultos Mayores',
-        initialRoute: 'login',
+        initialRoute: 'loading',  //loading 
         routes: appRoutes,
+        
 
 //theme
   theme: ThemeData.light().copyWith(

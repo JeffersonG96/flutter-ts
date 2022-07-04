@@ -19,7 +19,7 @@ class Labels extends StatelessWidget {
       child: Column(children:  <Widget>[
         const SizedBox(height: 10,),
         Text(this.subtitulo, style: const TextStyle(color: Colors.black87, fontSize:15, fontWeight: FontWeight.w400 ),),
-        const SizedBox(height: 20,),
+        const SizedBox(height: 10,),
         GestureDetector(
           child: Text(this.titulo, style: const TextStyle(color: Colors.indigo, fontSize:20, fontWeight: FontWeight.w700),),
           onTap: (){

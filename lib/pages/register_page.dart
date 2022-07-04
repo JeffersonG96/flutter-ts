@@ -1,7 +1,10 @@
+import 'package:app_login/helpers/mostrar_alerta.dart';
 import 'package:app_login/witgets/witgets.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-//!fffffffffffffffffffff
+import 'package:app_login/providers/auth_service.dart';
+
 class RegisterPage extends StatelessWidget {
 
   @override
@@ -53,8 +56,11 @@ class __FormState extends State<_Form> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
 
+    final authService = Provider.of<AuthService>(context);
+
+
+    return Container(
         margin: EdgeInsets.only(top: 35),
         padding: EdgeInsets.symmetric(horizontal: 50),
         child: Column(
@@ -62,16 +68,16 @@ class __FormState extends State<_Form> {
             
             CustomInput(
               icon: Icons.person_outline_rounded, 
-              placeholder: 'Nombre', 
+              placeholder: 'Nombre y apellido', 
               textController: nameCtrl,
               keyboardType: TextInputType.text,
               ),
-            CustomInput(
-              icon: Icons.person_outline_outlined, 
-              placeholder: 'Apellido', 
-              textController: lastNameCtrl,
-              keyboardType: TextInputType.text,
-              ),
+            // CustomInput(
+            //   icon: Icons.person_outline_outlined, 
+            //   placeholder: 'Apellido', 
+            //   textController: lastNameCtrl,
+            //   keyboardType: TextInputType.text,
+            //   ),
             CustomInput(
               icon: Icons.mail_outline_outlined, 
               placeholder: 'Correo Electrónico', 
@@ -87,8 +93,19 @@ class __FormState extends State<_Form> {
             
           BotonInOutPut(
             text: 'Registrar', 
-            onPressd: () {
+            onPressd: authService.autenticando ? () {} : () async {
               print(passCtrl);
+              final registerOk = await authService.register(nameCtrl.text, emailCtrl.text, passCtrl.text);
+
+              if ( registerOk == true ) {
+
+              //TODO: Conectar a mqtt broker 
+              Navigator.pushReplacementNamed(context, 'home');
+              } else {
+                mostrarAlerta(context, 'Datos incorrectos en el registro', '$registerOk');
+              }
+
+
             }
             ),
     
