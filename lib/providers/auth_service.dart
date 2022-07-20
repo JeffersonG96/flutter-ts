@@ -140,6 +140,30 @@ Future<bool> estaLogeado() async {
 
 } //estaLogeado
 
+//ENVIAR ID 
+Future sendId() async{
+  this.autenticando = true; //deshabilita botón
+
+  final data = {
+    'uid': usuario?.uid ?? '1212',
+  };
+  print(usuario?.uid ?? '1212');
+
+  final uri = Uri.parse('${ Environment.apiUrl }/login/find');
+  final resp = await http.post(uri, 
+      body: jsonEncode(data),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+  );
+
+  if(resp.statusCode == 200){
+    print('ENVIADO ID');
+  }
+}
+
+
+
 
 
 

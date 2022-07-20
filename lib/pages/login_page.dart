@@ -50,6 +50,7 @@ class __FormState extends State<_Form> {
   Widget build(BuildContext context) {
 
     final authService= Provider.of<AuthService>(context);  //Provider desde AuthService
+    final usuario = authService.usuario;
 
     return Container(
       margin: EdgeInsets.only(top: 35),
@@ -80,6 +81,10 @@ class __FormState extends State<_Form> {
             if (loginok) {
               //*Navegar a la pantalla de HomeScreen
               Navigator.pushReplacementNamed(context, 'home');
+
+              //*ENVIAR ID
+              await authService.sendId();
+              
 
             } else {
               //Mostrar Alerta si las credenciales no son correctas 

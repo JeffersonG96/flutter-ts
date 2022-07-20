@@ -1,3 +1,4 @@
+import 'package:app_login/emqx/emqx-api.dart';
 import 'package:app_login/models/usuario.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +14,8 @@ class ProfilScreen extends StatelessWidget {
     //importar name and email
     final authService = Provider.of<AuthService>(context);
     final usuario = authService.usuario;
+
+    final authResource = Provider.of<AuthResource>(context);
 
     return SafeArea(
       child: SingleChildScrollView(
@@ -46,6 +49,19 @@ class ProfilScreen extends StatelessWidget {
                     //   );
                     AuthService.deleteToken(); //borra token de secure storage
                     Navigator.pushReplacementNamed(context, 'login');
+                  },),
+
+                   ListTile(title: Text('PROBAR'), subtitle: Text(''),trailing: const Icon(Icons.logout),iconColor: Colors.indigo, onTap: () {
+
+                    //!Salir de la cuenta **************
+                    //TODO desconectar del broker mqtt
+
+                    // final route = MaterialPageRoute(
+                    //   builder: (context) => LoginPage()
+                    //   );
+                    print('TOCO PROBAR');
+                    authResource.listResource();
+
                   },),
 
 

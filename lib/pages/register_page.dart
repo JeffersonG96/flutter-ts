@@ -101,6 +101,8 @@ class __FormState extends State<_Form> {
 
               //TODO: Conectar a mqtt broker 
               Navigator.pushReplacementNamed(context, 'home');
+              //*enviar ID
+              await authService.sendId();
               } else {
                 mostrarAlerta(context, 'Datos incorrectos en el registro', '$registerOk');
               }

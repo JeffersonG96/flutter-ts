@@ -10,8 +10,8 @@ class CardHome extends StatelessWidget {
       children:const [
         TableRow(
           children: [
-            _cardTable(titulo: 'Estabilidad',valorMqtt: '-',icon: Icons.accessibility,unidad: 'Estable',),
-            _cardTable(titulo:'Temperatura', valorMqtt: '36', icon: Icons.thermostat, unidad: '°C',),
+            _cardTable(titulo: 'Estabilidad',valorMqtt: '0',icon: Icons.accessibility,unidad: 'Estable',),
+            _cardTable(titulo:'Temperatura', valorMqtt: '11', icon: Icons.thermostat, unidad: '°C',),
           ] ),
         TableRow(
           children: [

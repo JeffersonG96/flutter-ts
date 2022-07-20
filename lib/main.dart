@@ -1,3 +1,5 @@
+import 'package:app_login/emqx/emqx-api.dart';
+import 'package:app_login/global/environment.dart';
 import 'package:app_login/providers/providers.dart';
 import 'package:app_login/routes/routes.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +17,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => AuthService()),
         ChangeNotifierProvider(create: (_) => BarProvider()),
+        ChangeNotifierProvider(create: (_) => AuthResource()),
       ],
       
       child: MaterialApp(
