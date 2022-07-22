@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:app_login/providers/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:app_login/models/usuario.dart';
 import 'package:app_login/global/environment.dart';
 import 'package:app_login/models/login_response.dart';
+import 'package:provider/provider.dart';
 
 
 class AuthService with ChangeNotifier{
@@ -141,11 +143,11 @@ Future<bool> estaLogeado() async {
 } //estaLogeado
 
 //ENVIAR ID 
-Future sendId() async{
+Future<String> sendId() async{
   this.autenticando = true; //deshabilita botón
 
   final data = {
-    'uid': usuario?.uid ?? '1212',
+    'uid': usuario?.uid ?? '121212',
   };
   print(usuario?.uid ?? '1212');
 
@@ -159,7 +161,10 @@ Future sendId() async{
 
   if(resp.statusCode == 200){
     print('ENVIADO ID');
+    return usuario!.uid;
+
   }
+  return "121212";
 }
 
 
@@ -179,3 +184,4 @@ Future logout() async {
 }
 
 }
+

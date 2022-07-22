@@ -1,17 +1,27 @@
 
+import 'package:app_login/global/environment.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/auth_mqtt.dart';
 
 class CardHome extends StatelessWidget {
+
 
   @override
   Widget build(BuildContext context) {
     
+   final authMqtt = Provider.of<AuthMqtt>(context);
+   //convertir a String las variables 
+   final temp = authMqtt.dataMqtt['temp'].toString(); 
+   print(temp);
+
     return Table(
-      children:const [
+      children: [
         TableRow(
           children: [
             _cardTable(titulo: 'Estabilidad',valorMqtt: '0',icon: Icons.accessibility,unidad: 'Estable',),
-            _cardTable(titulo:'Temperatura', valorMqtt: '11', icon: Icons.thermostat, unidad: '°C',),
+            _cardTable(titulo:'Temperatura', valorMqtt: temp, icon: Icons.thermostat, unidad: '°C',),
           ] ),
         TableRow(
           children: [

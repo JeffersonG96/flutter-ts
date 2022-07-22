@@ -1,5 +1,5 @@
 import 'package:app_login/helpers/mostrar_alerta.dart';
-import 'package:app_login/providers/auth_service.dart';
+import 'package:app_login/providers/providers.dart';
 import 'package:app_login/witgets/witgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -50,7 +50,10 @@ class __FormState extends State<_Form> {
   Widget build(BuildContext context) {
 
     final authService= Provider.of<AuthService>(context);  //Provider desde AuthService
-    final usuario = authService.usuario;
+
+    final authMqtt = Provider.of<AuthMqtt>(context);  //Provider desde AuthMqtt
+
+    final barProvider = Provider.of<BarProvider>(context);
 
     return Container(
       margin: EdgeInsets.only(top: 35),
@@ -80,11 +83,17 @@ class __FormState extends State<_Form> {
 
             if (loginok) {
               //*Navegar a la pantalla de HomeScreen
-              Navigator.pushReplacementNamed(context, 'home');
 
               //*ENVIAR ID
-              await authService.sendId();
+             final idOk = await authService.sendId();
+
+              //ingresar a home
+              Navigator.pushReplacementNamed(context, 'home');
               
+              //?conectar al BROKER
+              authMqtt.mqttConnect(idOk);
+              
+              barProvider.selectedMenuOpt = 0;
 
             } else {
               //Mostrar Alerta si las credenciales no son correctas 
@@ -99,3 +108,5 @@ class __FormState extends State<_Form> {
     );
   }
 }
+
+

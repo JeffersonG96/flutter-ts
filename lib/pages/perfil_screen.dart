@@ -1,8 +1,7 @@
-import 'package:app_login/emqx/emqx-api.dart';
-import 'package:app_login/models/usuario.dart';
+import 'package:app_login/providers/auth_mqtt.dart';
+import 'package:app_login/providers/bar_provider.dart';
 import 'package:flutter/material.dart';
 
-import 'package:app_login/pages/login_page.dart';
 import 'package:app_login/providers/auth_service.dart';
 import 'package:provider/provider.dart';
 
@@ -15,7 +14,7 @@ class ProfilScreen extends StatelessWidget {
     final authService = Provider.of<AuthService>(context);
     final usuario = authService.usuario;
 
-    final authResource = Provider.of<AuthResource>(context);
+    final authMqtt = Provider.of<AuthMqtt>(context);
 
     return SafeArea(
       child: SingleChildScrollView(
@@ -42,13 +41,12 @@ class ProfilScreen extends StatelessWidget {
                   ListTile(title: Text('Cerrar sesión'), subtitle: Text(''),trailing: const Icon(Icons.logout),iconColor: Colors.indigo, onTap: () {
 
                     //!Salir de la cuenta **************
-                    //TODO desconectar del broker mqtt
 
-                    // final route = MaterialPageRoute(
-                    //   builder: (context) => LoginPage()
-                    //   );
                     AuthService.deleteToken(); //borra token de secure storage
                     Navigator.pushReplacementNamed(context, 'login');
+                    //TODO: desconectar del broker mqtt
+                    authMqtt.onDisconnected();
+
                   },),
 
                    ListTile(title: Text('PROBAR'), subtitle: Text(''),trailing: const Icon(Icons.logout),iconColor: Colors.indigo, onTap: () {
@@ -60,7 +58,13 @@ class ProfilScreen extends StatelessWidget {
                     //   builder: (context) => LoginPage()
                     //   );
                     print('TOCO PROBAR');
-                    authResource.listResource();
+                    
+                    // authMqtt.mqttConnect();
+                    
+
+                    // authResource.listResource();
+                    // update();
+
 
                   },),
 
