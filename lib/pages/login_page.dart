@@ -85,13 +85,17 @@ class __FormState extends State<_Form> {
               //*Navegar a la pantalla de HomeScreen
 
               //*ENVIAR ID
-             final idOk = await authService.sendId();
+             final data = await authService.sendId();
+
+             final mqttUsername = data['username'];
+             final mqttPassword = data['password'];
+             final uid = data['uid'];
 
               //ingresar a home
               Navigator.pushReplacementNamed(context, 'home');
               
               //?conectar al BROKER
-              authMqtt.mqttConnect(idOk);
+              authMqtt.mqttConnect(uid, mqttUsername, mqttPassword);
               
               barProvider.selectedMenuOpt = 0;
 

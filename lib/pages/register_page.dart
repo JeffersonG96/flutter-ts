@@ -105,14 +105,18 @@ class __FormState extends State<_Form> {
               if ( registerOk == true ) {
 
               Navigator.pushReplacementNamed(context, 'home');
-              //*enviar ID
-              final idOk = await authService.sendId();
               barProvider.selectedMenuOpt = 0;
-              //TODO: Conectar a mqtt broker 
-              await authMqtt.mqttConnect(idOk);
 
+              //*enviar ID
+              //* Conectar a mqtt broker 
+              final data = await authService.sendId();
 
-              
+              final mqttUsername = data['username'];
+              final mqttPassword = data['password'];
+              final uid = data['uid'];
+
+              authMqtt.mqttConnect(uid, mqttUsername, mqttPassword);
+
               } else {
                 mostrarAlerta(context, 'Datos incorrectos en el registro', '$registerOk');
               }

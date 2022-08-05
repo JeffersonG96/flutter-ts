@@ -49,7 +49,7 @@ class ProfilScreen extends StatelessWidget {
 
                   },),
 
-                   ListTile(title: Text('PROBAR'), subtitle: Text(''),trailing: const Icon(Icons.logout),iconColor: Colors.indigo, onTap: () {
+                   ListTile(title: Text('PROBAR'), subtitle: Text(''),trailing: const Icon(Icons.logout),iconColor: Colors.indigo, onTap: () async {
 
                     //!Salir de la cuenta **************
                     //TODO desconectar del broker mqtt
@@ -58,6 +58,9 @@ class ProfilScreen extends StatelessWidget {
                     //   builder: (context) => LoginPage()
                     //   );
                     print('TOCO PROBAR');
+                    final idOk = await authService.sendId();
+                    print('desde probar');
+                    print(idOk);
                     
                     // authMqtt.mqttConnect();
                     

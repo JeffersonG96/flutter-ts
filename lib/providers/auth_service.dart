@@ -143,7 +143,7 @@ Future<bool> estaLogeado() async {
 } //estaLogeado
 
 //ENVIAR ID 
-Future<String> sendId() async{
+Future<Map> sendId() async{
   this.autenticando = true; //deshabilita botón
 
   final data = {
@@ -159,12 +159,15 @@ Future<String> sendId() async{
       }
   );
 
+  final Map<String, dynamic> decodeData =json.decode(resp.body);
+  // final username = decodeData['username'];
+  // print(username);
   if(resp.statusCode == 200){
     print('ENVIADO ID');
-    return usuario!.uid;
 
+    return decodeData;
   }
-  return "121212";
+  return {'uid': '121212', 'username': 'na', 'password': 'na'};
 }
 
 

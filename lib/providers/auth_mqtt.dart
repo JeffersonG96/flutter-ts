@@ -16,11 +16,17 @@ class AuthMqtt with ChangeNotifier {
 
 
 Map dataMqtt = {};
+String mainTopic = "";
+var temp = 0;
+var status = 0;
+var heart = 0;
+var spo2 = 0;
 
-final client = MqttServerClient.withPort('192.168.100.149', 'clientIdentifier', 1883);
+final client = MqttServerClient.withPort('192.168.100.160', 'clientIdentifier', 1883);
 
-Future mqttConnect(String id) async {
+Future mqttConnect(String id, String mqttUsername, String mqttPassword) async {
 
+  client.logging(on: true);
   client.keepAlivePeriod=60;
   client.autoReconnect = true;
   client.onConnected = onConnected;
@@ -32,7 +38,7 @@ Future mqttConnect(String id) async {
 
     final connMess = MqttConnectMessage()
       .withClientIdentifier('flutterIDClient')
-      .authenticateAs('user', 'root')
+      .authenticateAs(mqttUsername, mqttPassword)
       .withWillTopic('willtopic') // If you set this you must set a will message
       .withWillMessage('My Will message')
       .startClean() // Non persistent session for testing
@@ -41,7 +47,7 @@ Future mqttConnect(String id) async {
   client.connectionMessage = connMess;
   
   try {
-    await client.connect();    
+    await client.connect(); 
   } on NoConnectionException catch (e) {
     print(e.toString());
   }
@@ -62,15 +68,43 @@ client.subscribe(topic, MqttQos.atMostOnce);
 client.updates!.listen((List<MqttReceivedMessage<MqttMessage>> mqttReceivedMessage) { 
   final  recMess = mqttReceivedMessage[0].payload as  MqttPublishMessage;
   final pt = MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
+  mainTopic = mqttReceivedMessage[0].topic;
   print('Datos de MQTT: $pt');
 
-final Map<String, dynamic>data = json.decode(pt);
+  final Map<String, dynamic>data = json.decode(pt);
+
+  //*Temperatura
+  final topicTemp = "$id/temp/sdata";
+  if(mainTopic == topicTemp){
+    temp = data['value'];  
+  }
+
+  //*Estabilidad
+  final topicStatus = "$id/status/sdata";
+    if(mainTopic == topicStatus){
+    status = data['value'];  
+    print(('ESTADO: $status'));
+  }
+
+  //*
+  final topicHeart = "$id/heart/sdata";
+  if(mainTopic == topicHeart){
+    heart = data['value'];
+  }
+
+  final topicSpo2 = "$id/spo2/sdata";
+  if(mainTopic == topicSpo2){
+    spo2 = data['value'];
+  }
+
 
 dataMqtt = data;
 notifyListeners();
 });
 
 }
+
+
 
 void onConnected() {
   print('Conectado');

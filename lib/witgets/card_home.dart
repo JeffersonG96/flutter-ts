@@ -13,20 +13,21 @@ class CardHome extends StatelessWidget {
     
    final authMqtt = Provider.of<AuthMqtt>(context);
    //convertir a String las variables 
-   final temp = authMqtt.dataMqtt['temp'].toString(); 
-   print(temp);
+   final temp = authMqtt.temp.toString();
+   final status = authMqtt.status.toString();
+   print('DESDE HOME - TEMPERATURA: $temp');
 
     return Table(
       children: [
         TableRow(
           children: [
-            _cardTable(titulo: 'Estabilidad',valorMqtt: '0',icon: Icons.accessibility,unidad: 'Estable',),
+            _cardTable(titulo: 'Estabilidad',valorMqtt: status,icon: Icons.accessibility,unidad: 'Estable',),
             _cardTable(titulo:'Temperatura', valorMqtt: temp, icon: Icons.thermostat, unidad: '°C',),
           ] ),
         TableRow(
           children: [
-            _cardTable(titulo: 'Frecuencia Cardiaca', valorMqtt: '70', icon: Icons.favorite, unidad: 'BPM',),
-            _cardTable(titulo: 'Frecuencia Respiratoria',valorMqtt: '20', icon: Icons.show_chart,unidad: 'SPO2',),
+            _cardTable(titulo: 'Frecuencia Cardiaca', valorMqtt: authMqtt.heart.toString(), icon: Icons.favorite, unidad: 'BPM',),
+            _cardTable(titulo: 'Pulsioxímetro',valorMqtt: authMqtt.spo2.toString(), icon: Icons.show_chart,unidad: 'SPO2',),
           ] ),
 
         TableRow(

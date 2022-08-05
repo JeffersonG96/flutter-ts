@@ -1,5 +1,6 @@
 import 'package:app_login/pages/home_screen.dart';
 import 'package:app_login/pages/login_page.dart';
+import 'package:app_login/providers/auth_mqtt.dart';
 import 'package:app_login/providers/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -27,9 +28,21 @@ final authService = Provider.of<AuthService>(context, listen: false);
 
 final autenticado = await authService.estaLogeado();
 
+final authMqtt = Provider.of<AuthMqtt>(context, listen: false);
 
 if (autenticado) {
   //TODO: conectar al broker mqtt
+
+    final data = await authService.sendId();
+
+    final mqttUsername = data['username'];
+    final mqttPassword = data['password'];
+    final uid = data['uid'];
+    print('llega loading');
+    print(mqttPassword);
+
+    authMqtt.mqttConnect(uid, mqttUsername, mqttPassword);
+
   Navigator.pushReplacement(
     context, 
     PageRouteBuilder(
