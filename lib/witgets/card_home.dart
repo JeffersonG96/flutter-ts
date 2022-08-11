@@ -1,5 +1,4 @@
 
-import 'package:app_login/global/environment.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,6 +15,7 @@ class CardHome extends StatelessWidget {
    final temp = authMqtt.temp.toString();
    final status = authMqtt.status.toString();
    print('DESDE HOME - TEMPERATURA: $temp');
+   
 
     return Table(
       children: [

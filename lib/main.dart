@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AuthService()),
         ChangeNotifierProvider(create: (_) => BarProvider()),
         ChangeNotifierProvider(create: (_) => AuthResource()),
-        ChangeNotifierProvider(create: (_) => AuthMqtt()),
+        ChangeNotifierProvider(create: (_) => AuthMqtt(), lazy: false),
       ],
       
       child: MaterialApp(

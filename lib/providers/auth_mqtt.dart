@@ -1,11 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:app_login/providers/providers.dart';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
-import 'package:provider/provider.dart';
+
 
   //*COnectar al broker
   // authMqtt.mqttConnect();
@@ -23,12 +24,15 @@ var heart = 0;
 var spo2 = 0;
 
 final client = MqttServerClient.withPort('192.168.100.160', 'clientIdentifier', 1883);
+var pongCount = 0;
 
 Future mqttConnect(String id, String mqttUsername, String mqttPassword) async {
 
   client.logging(on: true);
-  client.keepAlivePeriod=60;
+  client.keepAlivePeriod=5;
   client.autoReconnect = true;
+  client.onAutoReconnect = onAutoReconnect;
+  client.onAutoReconnected = onAutoReconnected;
   client.onConnected = onConnected;
   client.onDisconnected = onDisconnected;
 
@@ -36,8 +40,10 @@ Future mqttConnect(String id, String mqttUsername, String mqttPassword) async {
   client.onSubscribeFail = onSubscribeFail;
   client.pongCallback = pong;
 
+  String random = generateRandomString(10);
+
     final connMess = MqttConnectMessage()
-      .withClientIdentifier('flutterIDClient')
+      .withClientIdentifier('app_$random')
       .authenticateAs(mqttUsername, mqttPassword)
       .withWillTopic('willtopic') // If you set this you must set a will message
       .withWillMessage('My Will message')
@@ -96,6 +102,7 @@ client.updates!.listen((List<MqttReceivedMessage<MqttMessage>> mqttReceivedMessa
   if(mainTopic == topicSpo2){
     spo2 = data['value'];
   }
+  
 
 
 dataMqtt = data;
@@ -127,6 +134,18 @@ if (client.connectionStatus!.state == MqttConnectionState.connected){
 }
 
 
+void onAutoReconnect() {
+  print(
+      'EXAMPLE::onAutoReconnect client callback - Client auto reconnection sequence will start');
+      // await client.connect(); 
+}
+
+/// The post auto re connect callback
+void onAutoReconnected() {
+  print(
+      'EXAMPLE::onAutoReconnected client callback - Client auto reconnection sequence has completed');
+}
+
 // subscribe to topic succeeded
 void onSubscribed(String topic) {
   print('Subscribed topic: $topic');
@@ -145,5 +164,14 @@ void onUnsubscribed(String topic) {
 // PING response received
 void pong() {
   print('Ping...');
+  pongCount ++ ;
+  print(pongCount);
 }
+
+  String generateRandomString(int len) {
+  var r = Random();
+  const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+  return List.generate(len, (index) => _chars[r.nextInt(_chars.length)]).join();
+  }
+
 }
