@@ -1,4 +1,6 @@
 
+//*SHA1       EF:24:BA:84:25:7E:BA:BA:B8:DE:24:81:1C:47:56:2A:77:5D:C9:AC
+
 import 'dart:io';
 
 class Environment {

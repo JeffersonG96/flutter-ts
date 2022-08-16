@@ -1,4 +1,4 @@
-package com.example.app_login
+package com.inmoticadata.medicalcheck
 
 import io.flutter.embedding.android.FlutterActivity
 

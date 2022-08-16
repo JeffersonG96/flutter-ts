@@ -1,5 +1,6 @@
 import 'package:app_login/helpers/mostrar_alerta.dart';
 import 'package:app_login/providers/providers.dart';
+import 'package:app_login/services/push_notifications_service.dart';
 import 'package:app_login/witgets/witgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -104,18 +105,25 @@ class __FormState extends State<_Form> {
 
               if ( registerOk == true ) {
 
-              Navigator.pushReplacementNamed(context, 'home');
               barProvider.selectedMenuOpt = 0;
 
               //*enviar ID
               //* Conectar a mqtt broker 
               final data = await authService.sendId();
+              print('datos en register');
+              print(data);
+
+              //*enviar token a db
+              final tokenDeviceId = PushNotificationsService.token ?? '';
+              await authService.sendDeviceId(tokenDeviceId);
 
               final mqttUsername = data['username'];
               final mqttPassword = data['password'];
               final uid = data['uid'];
 
               authMqtt.mqttConnect(uid, mqttUsername, mqttPassword);
+              Navigator.pushReplacementNamed(context, 'home');
+              
 
               } else {
                 mostrarAlerta(context, 'Datos incorrectos en el registro', '$registerOk');

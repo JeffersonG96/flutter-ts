@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.app_login">
+    package="com.inmoticadata.medicalcheck">
    <application
         android:label="app_login"
         android:name="${applicationName}"

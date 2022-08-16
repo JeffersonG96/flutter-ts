@@ -1,5 +1,6 @@
 import 'package:app_login/helpers/mostrar_alerta.dart';
 import 'package:app_login/providers/providers.dart';
+import 'package:app_login/services/push_notifications_service.dart';
 import 'package:app_login/witgets/witgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -96,6 +97,10 @@ class __FormState extends State<_Form> {
               
               //?conectar al BROKER
               authMqtt.mqttConnect(uid, mqttUsername, mqttPassword);
+
+              //*enviar token device
+              final tokenDeviceId = PushNotificationsService.token ?? '';
+              await authService.sendDeviceId(tokenDeviceId);
               
               barProvider.selectedMenuOpt = 0;
 

@@ -142,14 +142,15 @@ Future<bool> estaLogeado() async {
 
 } //estaLogeado
 
-//ENVIAR ID 
+
+
+//*ENVIAR ID 
 Future<Map> sendId() async{
   this.autenticando = true; //deshabilita botón
 
   final data = {
     'uid': usuario?.uid ?? '121212',
   };
-  print(usuario?.uid ?? '1212');
 
   final uri = Uri.parse('${ Environment.apiUrl }/login/find');
   final resp = await http.post(uri, 
@@ -171,6 +172,34 @@ Future<Map> sendId() async{
 }
 
 
+
+//*enviar token a mongo
+Future sendDeviceId(String tokenDeviceId) async{
+
+  final data = {
+    'uid': usuario?.uid ?? '121212',
+    'deviceId': tokenDeviceId,
+  };
+
+  final token = await this._storage.read(key: 'token') ?? '';
+
+  final uri = Uri.parse('${ Environment.apiUrl }/login/receive-deviceId');
+  final resp = await http.post(uri, 
+      body: jsonEncode(data),
+      headers: {
+        'Content-Type': 'application/json',
+        'x-token': token
+      }
+  );
+
+  //Confirmar si la peticion se hizo correctamente 
+
+  if ( resp.statusCode == 200) {
+    print('tokenen device en base de datos');
+    return true;
+  } 
+  return false;
+}//register
 
 
 

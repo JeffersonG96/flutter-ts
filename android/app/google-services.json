@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1023096932414",
+    "project_id": "notificaciones-64457",
+    "storage_bucket": "notificaciones-64457.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1023096932414:android:f0caa9fe88004c3aef696f",
+        "android_client_info": {
+          "package_name": "com.inmoticadata.medicalcheck"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1023096932414-jq3sd0an0sgpk16q40cpvlujvc62rgh5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.inmoticadata.medicalcheck",
+            "certificate_hash": "ef24ba84257ebabab8de24811c47562a775dc9ac"
+          }
+        },
+        {
+          "client_id": "1023096932414-q6dl33it45salonsleoejdfruk5gplgm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvO9C4EqSmf08U5mIlBtDrKRXc-rwRM_g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1023096932414-q6dl33it45salonsleoejdfruk5gplgm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
