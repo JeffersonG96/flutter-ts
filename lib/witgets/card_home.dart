@@ -1,4 +1,5 @@
 
+import 'package:app_login/pages/chart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -17,25 +18,38 @@ class CardHome extends StatelessWidget {
    print('DESDE HOME - TEMPERATURA: $temp');
    
 
-    return Table(
-      children: [
-        TableRow(
-          children: [
-            _cardTable(titulo: 'Estabilidad',valorMqtt: status,icon: Icons.accessibility,unidad: 'Estable',),
-            _cardTable(titulo:'Temperatura', valorMqtt: temp, icon: Icons.thermostat, unidad: '°C',),
-          ] ),
-        TableRow(
-          children: [
-            _cardTable(titulo: 'Frecuencia Cardiaca', valorMqtt: authMqtt.heart.toString(), icon: Icons.favorite, unidad: 'BPM',),
-            _cardTable(titulo: 'Pulsioxímetro',valorMqtt: authMqtt.spo2.toString(), icon: Icons.show_chart,unidad: 'SPO2',),
-          ] ),
+    return Column(
+      children:[ 
+        Table(
+        children: [
+          TableRow(
+            children: [
+              _cardTable(titulo: 'Estabilidad',valorMqtt: status,icon: Icons.accessibility,unidad: 'Estable',),
+              _cardTable(titulo:'Temperatura', valorMqtt: temp, icon: Icons.thermostat, unidad: '°C',),
+            ] ),
+        ],
+      ),
 
-        TableRow(
+      ChartSfCartesian(nameChart:'Temperatura', temp: authMqtt.temp.toDouble()),
+
+        Table(
           children: [
-            _cardTable(titulo: 'Presión Arterial',valorMqtt: '90',icon: Icons.timeline, unidad: 'mmHg',),
-            _cardTable(titulo: 'Casa', valorMqtt: '100',icon: Icons.house_outlined, unidad: 'Normal',),
+          TableRow(
+            children: [
+              _cardTable(titulo: 'Frecuencia Cardiaca', valorMqtt: authMqtt.heart.toString(), icon: Icons.favorite, unidad: 'BPM',),
+              _cardTable(titulo: 'Pulsioxímetro',valorMqtt: authMqtt.spo2.toString(), icon: Icons.show_chart,unidad: 'SPO2',),
+            ] ),
           ] ),
-      ],
+    
+        Table(
+          children: const [
+          TableRow(
+            children: [
+              _cardTable(titulo: 'Presión Arterial',valorMqtt: '90',icon: Icons.timeline, unidad: 'mmHg',),
+              _cardTable(titulo: 'Casa', valorMqtt: '100',icon: Icons.house_outlined, unidad: 'Normal',),
+            ] ),
+          ])
+      ]
     );
 
   }
@@ -71,9 +85,9 @@ class _cardTable extends StatelessWidget {
               children: [
                 SizedBox(height: 10,),  //!Titulo
                 Text(titulo,textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
-
+       
                 SizedBox(height: 30,),
-
+       
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [  //!valor mqtt
@@ -89,6 +103,7 @@ class _cardTable extends StatelessWidget {
                     
                   ],
                 ),             
+            //*GRafica
             ],
             ),
           ),

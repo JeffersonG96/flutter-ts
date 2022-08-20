@@ -12,4 +12,5 @@ final Map<String, Widget Function(BuildContext)> appRoutes = {
   'loading': (_) => LoadingPage(),
   'home': (_) => HomeScreen(),
   'profil': (_) => ProfilScreen(),
+  // 'chart':(_) => ChartSfCartesian(),
 };

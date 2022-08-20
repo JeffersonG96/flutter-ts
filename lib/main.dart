@@ -1,10 +1,10 @@
-import 'package:app_login/emqx/emqx-api.dart';
-import 'package:app_login/global/environment.dart';
+
 import 'package:app_login/providers/providers.dart';
 import 'package:app_login/routes/routes.dart';
 import 'package:app_login/services/push_notifications_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -57,7 +57,7 @@ class _MyAppState extends State<MyApp> {
       providers: [
         ChangeNotifierProvider(create: (_) => AuthService()),
         ChangeNotifierProvider(create: (_) => BarProvider()),
-        ChangeNotifierProvider(create: (_) => AuthResource()),
+        // ChangeNotifierProvider(create: (_) => AuthResource()),
         ChangeNotifierProvider(create: (_) => AuthMqtt()),
       ],
       

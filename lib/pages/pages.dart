@@ -5,7 +5,9 @@ export 'package:app_login/pages/register_page.dart';
 export 'package:app_login/pages/usuarios_page.dart';
 
 export 'package:app_login/pages/chat_page.dart';
-
 export 'package:app_login/pages/perfil_screen.dart';
+export 'package:app_login/pages/chart.dart';
+
+
 
 

@@ -13,7 +13,7 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Datos Vitales'),
+        title: const Text('Datos Vitales', textAlign: TextAlign.center),
         leading: IconButton(
           icon: Icon(Icons.logout_outlined),
           onPressed:() {
