@@ -1,6 +1,7 @@
 
 import 'package:app_login/providers/providers.dart';
 import 'package:app_login/routes/routes.dart';
+import 'package:app_login/services/data_chart_service.dart';
 import 'package:app_login/services/push_notifications_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -57,8 +58,8 @@ class _MyAppState extends State<MyApp> {
       providers: [
         ChangeNotifierProvider(create: (_) => AuthService()),
         ChangeNotifierProvider(create: (_) => BarProvider()),
-        // ChangeNotifierProvider(create: (_) => AuthResource()),
         ChangeNotifierProvider(create: (_) => AuthMqtt()),
+        ChangeNotifierProvider(create: (_) => DataChartService()),
       ],
       
       child: MaterialApp(

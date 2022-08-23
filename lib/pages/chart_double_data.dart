@@ -1,40 +1,37 @@
+
 import 'dart:async';
 
-import 'package:app_login/services/data_chart_service.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:intl/intl.dart';
 import 'dart:math' as math;
 
-import 'package:app_login/models/data_chart_response.dart';
-
-
 
 //Chart
-class ChartSfCartesian extends StatefulWidget {
+class ChartDouble extends StatefulWidget {
 
-  final  double temp;
+  final  double heart;
+  final  double spo2;
   final String nameChart;
 
-  const ChartSfCartesian({
+  const ChartDouble({
     Key? key, 
     required this.nameChart, 
-    required this.temp, 
+    required this.heart, 
+    required this.spo2, 
     // required this.temp, 
   }) : super(key: key);
 
   @override
-  State<ChartSfCartesian> createState() => _ChartSfCartesianState();
+  State<ChartDouble> createState() => _ChartDoubleState();
 
 }
 
-class _ChartSfCartesianState extends State<ChartSfCartesian> with AutomaticKeepAliveClientMixin {
+class _ChartDoubleState extends State<ChartDouble> with AutomaticKeepAliveClientMixin {
   
-  late DataChartService dataChartService;
-  List<Msg> _getData = [];
   //  late Timer temp;
   late List<LiveData> chartData;
+  late List<ChartData> chartData2;
   late TooltipBehavior _tooltipBehavior;
   late ChartSeriesController _chartSeriesController;
   late ZoomPanBehavior _zoomPanBehavior;
@@ -43,19 +40,18 @@ class _ChartSfCartesianState extends State<ChartSfCartesian> with AutomaticKeepA
 
   @override
   void initState() {
-    super.initState();
 
-    this.dataChartService = Provider.of<DataChartService>(context, listen: false);
-  
     chartData = getChartData();
+    chartData2 = getChartData2();
+    print(chartData);
+    // updateDataSource(widget.temp);
     _zoomPanBehavior = ZoomPanBehavior(enablePinching: true, zoomMode: ZoomMode.x, maximumZoomLevel:0.8); //hacer zoom con doble toque
     _tooltipBehavior = TooltipBehavior(enable: true);
     Timer.periodic( Duration(seconds: 10), updateDataSource);
-
+    Timer.periodic( Duration(seconds: 9), updateDataSource2);
     print('pasa Timer');
+    super.initState();
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -77,10 +73,21 @@ class _ChartSfCartesianState extends State<ChartSfCartesian> with AutomaticKeepA
       onRendererCreated: (ChartSeriesController conttroller){
         _chartSeriesController = conttroller;
       },
+      color: Colors.green,
       dataSource: chartData,
-      name: 'Temperatura',
+      name: 'BPM',
       xValueMapper: (LiveData sales, _) => sales.time,
-      yValueMapper: (LiveData sales, _) => sales.sales 
+      yValueMapper: (LiveData sales, _) => sales.bpm 
+      ),
+
+      LineSeries<ChartData, DateTime>(
+      onRendererCreated: (ChartSeriesController conttroller){
+        _chartSeriesController = conttroller;
+      },
+      dataSource: chartData2,
+      name: 'SPo2 %',
+      xValueMapper: (ChartData sales, _) => sales.time,
+      yValueMapper: (ChartData sales, _) => sales.spo2 
       ),
       
       ],
@@ -97,7 +104,7 @@ class _ChartSfCartesianState extends State<ChartSfCartesian> with AutomaticKeepA
         labelPosition: ChartDataLabelPosition.outside,
         tickPosition: TickPosition.inside,
         isVisible: true, //ocultar línea y elementos del eje
-        numberFormat: NumberFormat.simpleCurrency(name:'°C ',decimalDigits: 1),
+        numberFormat: NumberFormat.simpleCurrency(name:'s',decimalDigits: 1),
         maximum: 101,
         // title: AxisTitle(text: 'Temperatura'),
         
@@ -107,19 +114,10 @@ class _ChartSfCartesianState extends State<ChartSfCartesian> with AutomaticKeepA
     
   }
 
-    int time = 19;
+
   void updateDataSource(Timer temp) {
-    print('updatexxxx');
     final dateTime = DateTime.now();
-    function = (math.Random().nextInt(60) + 30);
-    // setState(() {
-    //   function;
-    // });
-    chartData.add(LiveData(dateTime, widget.temp));
-    print('xxxxxxxxxxx');
-    print(dateTime);
-    print(widget.temp);
-    print('xxxxxxxxxxx');
+    chartData.add(LiveData(dateTime, widget.heart));
     print('Longitud de LISTA: ${chartData.length}');
     if(chartData.length == 100){
     chartData.removeAt(0);
@@ -133,6 +131,25 @@ class _ChartSfCartesianState extends State<ChartSfCartesian> with AutomaticKeepA
       );
     }
   }
+
+  void updateDataSource2(Timer temp) {
+    final dateTime = DateTime.now();
+    chartData2.add(ChartData(dateTime, widget.spo2));
+    print('Longitud de LISTA: ${chartData.length}');
+    if(chartData2.length == 100){
+    chartData2.removeAt(0);
+    _chartSeriesController.updateDataSource(
+    addedDataIndex: chartData2.length - 1, 
+    removedDataIndex: 0,
+    ); 
+    } else {
+      _chartSeriesController.updateDataSource(
+        addedDataIndex: chartData2.length -1,
+      );
+    }
+  }
+
+
   
   @override
   bool get wantKeepAlive => true;
@@ -143,17 +160,29 @@ class _ChartSfCartesianState extends State<ChartSfCartesian> with AutomaticKeepA
 
 List<LiveData> getChartData(){
   final List<LiveData> _chartDate = [
-    LiveData(DateTime.now(), 10),
-    LiveData(DateTime.now(), 50),
+
   ];
   return _chartDate;
 }
 
+List<ChartData> getChartData2(){
+  final List<ChartData> _chartDate2 = [
+
+  ];
+  return _chartDate2;
+}
+
 
 class LiveData{
-  LiveData(this.time, this.sales);
+  LiveData(this.time, this.bpm);
  final DateTime time;
- final double sales;
+ final double bpm;
+}
+
+class ChartData{
+  ChartData(this.time, this.spo2);
+ final DateTime time;
+ final double spo2;
 }
 
 

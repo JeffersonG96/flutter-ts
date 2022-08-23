@@ -1,5 +1,6 @@
 
 import 'package:app_login/pages/chart.dart';
+import 'package:app_login/pages/chart_double_data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -29,8 +30,9 @@ class CardHome extends StatelessWidget {
             ] ),
         ],
       ),
-
-      ChartSfCartesian(nameChart:'Temperatura', temp: authMqtt.temp.toDouble()),
+      
+      // ChartSfCartesian(nameChart:'Temperatura', temp: authMqtt.temp.toDouble()),
+      CardChartHome(),
 
         Table(
           children: [
@@ -40,6 +42,8 @@ class CardHome extends StatelessWidget {
               _cardTable(titulo: 'Pulsioxímetro',valorMqtt: authMqtt.spo2.toString(), icon: Icons.show_chart,unidad: 'SPO2',),
             ] ),
           ] ),
+
+          CardChartDouble(),
     
         Table(
           children: const [
@@ -109,5 +113,58 @@ class _cardTable extends StatelessWidget {
           ),
        )
     );
+  }
+}
+
+
+
+//*Chart
+class CardChartHome extends StatelessWidget {
+
+  const CardChartHome({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+
+    final authMqtt = Provider.of<AuthMqtt>(context); 
+    final temp = authMqtt.temp.toString();
+
+      return Container(
+      width: double.infinity,
+      height: 250,
+      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+       child: ClipRRect(
+        borderRadius: BorderRadius.circular(24),
+         child: Card(      
+            color: Colors.grey[300],
+            child:  ChartSfCartesian(nameChart:'Temperatura', temp: authMqtt.temp.toDouble()),
+         ) ) );
+  }
+}
+
+
+
+
+
+class CardChartDouble extends StatelessWidget {
+
+  const CardChartDouble({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+
+    final authMqtt = Provider.of<AuthMqtt>(context); 
+    final temp = authMqtt.temp.toString();
+
+      return Container(
+      width: double.infinity,
+      height: 250,
+      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+       child: ClipRRect(
+        borderRadius: BorderRadius.circular(24),
+         child: Card(      
+            color: Colors.grey[300],
+            child: ChartDouble(nameChart:'BPM y SPO2', heart: authMqtt.heart.toDouble(), spo2: authMqtt.spo2.toDouble()),
+         ) ) );
   }
 }
