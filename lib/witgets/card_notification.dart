@@ -5,6 +5,8 @@ class CardNotification extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
+
     return Padding(
       padding: EdgeInsets.only(left: 10, right: 10, top: 5),
       child: Container(

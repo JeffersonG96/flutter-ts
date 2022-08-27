@@ -33,25 +33,29 @@ class Msg {
       required  this.userId,
       required  this.variable,
       required  this.value,
-      required  this.time,
+      required  this.createdAt,
+      required  this.updatedAt,
     });
 
     String userId;
     String variable;
     int value;
-    int time;
+    DateTime createdAt;
+    DateTime updatedAt;
 
     factory Msg.fromJson(Map<String, dynamic> json) => Msg(
         userId: json["userId"],
         variable: json["variable"],
         value: json["value"],
-        time: json["time"],
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
     );
 
     Map<String, dynamic> toJson() => {
         "userId": userId,
         "variable": variable,
         "value": value,
-        "time": time,
+        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt.toIso8601String(),
     };
 }

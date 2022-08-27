@@ -38,8 +38,6 @@ if (autenticado) {
     final mqttUsername = data['username'];
     final mqttPassword = data['password'];
     final uid = data['uid'];
-    print('llega loading');
-    print(mqttPassword);
 
     authMqtt.mqttConnect(uid, mqttUsername, mqttPassword);
 

@@ -1,7 +1,10 @@
-
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:app_login/pages/chart.dart';
+import 'package:app_login/services/data_chart_service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:intl/intl.dart';
 import 'dart:math' as math;
@@ -30,26 +33,27 @@ class ChartDouble extends StatefulWidget {
 class _ChartDoubleState extends State<ChartDouble> with AutomaticKeepAliveClientMixin {
   
   //  late Timer temp;
-  late List<LiveData> chartData;
-  late List<ChartData> chartData2;
+  List<HeartData> heartData = [];
+  List<Spo2Data> spo2Data = [];
+  late DataChartService dataChartService;
   late TooltipBehavior _tooltipBehavior;
   late ChartSeriesController _chartSeriesController;
   late ZoomPanBehavior _zoomPanBehavior;
   double function = 10;
-  int count=0;
+  int counter = 0;
 
   @override
   void initState() {
 
-    chartData = getChartData();
-    chartData2 = getChartData2();
-    print(chartData);
-    // updateDataSource(widget.temp);
+    heartData = getChartData();
+    spo2Data = getChartData2();
+
+    dataChartService = Provider.of<DataChartService>(context, listen: false);
     _zoomPanBehavior = ZoomPanBehavior(enablePinching: true, zoomMode: ZoomMode.x, maximumZoomLevel:0.8); //hacer zoom con doble toque
     _tooltipBehavior = TooltipBehavior(enable: true);
-    Timer.periodic( Duration(seconds: 10), updateDataSource);
-    Timer.periodic( Duration(seconds: 9), updateDataSource2);
-    print('pasa Timer');
+    Timer.periodic( Duration(seconds: 12), updateDataSource);
+    // Timer.periodic( Duration(seconds: 9), updateDataSource2);
+    updateDataSource(1);
     super.initState();
   }
 
@@ -69,25 +73,20 @@ class _ChartDoubleState extends State<ChartDouble> with AutomaticKeepAliveClient
       
       //<LiveData, DateTime>
       series: <ChartSeries>[
-      LineSeries<LiveData, DateTime>(
-      onRendererCreated: (ChartSeriesController conttroller){
-        _chartSeriesController = conttroller;
-      },
+      LineSeries<HeartData, DateTime>(
       color: Colors.green,
-      dataSource: chartData,
+      dataSource: heartData,
       name: 'BPM',
-      xValueMapper: (LiveData sales, _) => sales.time,
-      yValueMapper: (LiveData sales, _) => sales.bpm 
+      xValueMapper: (HeartData sales, _) => sales.time,
+      yValueMapper: (HeartData sales, _) => sales.value 
       ),
 
-      LineSeries<ChartData, DateTime>(
-      onRendererCreated: (ChartSeriesController conttroller){
-        _chartSeriesController = conttroller;
-      },
-      dataSource: chartData2,
+
+      LineSeries<Spo2Data, DateTime>(
+      dataSource: spo2Data,
       name: 'SPo2 %',
-      xValueMapper: (ChartData sales, _) => sales.time,
-      yValueMapper: (ChartData sales, _) => sales.spo2 
+      xValueMapper: (Spo2Data sales, _) => sales.time,
+      yValueMapper: (Spo2Data sales, _) => sales.value 
       ),
       
       ],
@@ -104,8 +103,8 @@ class _ChartDoubleState extends State<ChartDouble> with AutomaticKeepAliveClient
         labelPosition: ChartDataLabelPosition.outside,
         tickPosition: TickPosition.inside,
         isVisible: true, //ocultar línea y elementos del eje
-        numberFormat: NumberFormat.simpleCurrency(name:'s',decimalDigits: 1),
-        maximum: 101,
+        numberFormat: NumberFormat.simpleCurrency(name:'',decimalDigits: 1),
+        maximum: 150,
         // title: AxisTitle(text: 'Temperatura'),
         
         ),
@@ -115,40 +114,40 @@ class _ChartDoubleState extends State<ChartDouble> with AutomaticKeepAliveClient
   }
 
 
-  void updateDataSource(Timer temp) {
-    final dateTime = DateTime.now();
-    chartData.add(LiveData(dateTime, widget.heart));
-    print('Longitud de LISTA: ${chartData.length}');
-    if(chartData.length == 100){
-    chartData.removeAt(0);
-    _chartSeriesController.updateDataSource(
-    addedDataIndex: chartData.length - 1, 
-    removedDataIndex: 0,
-    ); 
-    } else {
-      _chartSeriesController.updateDataSource(
-        addedDataIndex: chartData.length -1,
-      );
-    }
-  }
+  void updateDataSource(heart) async {
 
-  void updateDataSource2(Timer temp) {
-    final dateTime = DateTime.now();
-    chartData2.add(ChartData(dateTime, widget.spo2));
-    print('Longitud de LISTA: ${chartData.length}');
-    if(chartData2.length == 100){
-    chartData2.removeAt(0);
-    _chartSeriesController.updateDataSource(
-    addedDataIndex: chartData2.length - 1, 
-    removedDataIndex: 0,
-    ); 
-    } else {
-      _chartSeriesController.updateDataSource(
-        addedDataIndex: chartData2.length -1,
-      );
-    }
-  }
+    final jsonInt = await dataChartService.getDataChart();
+ 
+    final dynamic jsonResponse = json.decode(jsonInt);
+    heartData = []; //elimina toda la lista
+    spo2Data = []; //elimina toda la lista
+    
+    for (Map<dynamic,dynamic> i in jsonResponse['msg']){
+      //*Heart
+      if(i['variable'] =='heart'){
+        final Map<dynamic,dynamic> updateMap = i;
+        final DateTime date1 = DateTime.fromMillisecondsSinceEpoch( updateMap['time']);
+        updateMap['time'] = date1;
+        heartData.add(HeartData.fromJson(updateMap));
+      }//if
 
+      //*Spo2
+      if(i['variable'] =='spo2'){
+        Map<dynamic,dynamic> updateMap = i;
+        DateTime date1 = DateTime.fromMillisecondsSinceEpoch( updateMap['time']);
+        updateMap['time'] = date1;
+        spo2Data.add(Spo2Data.fromJson(updateMap)); 
+      }
+
+      }
+    counter++;
+    if(mounted){
+     setState(() {
+       counter;
+     }); }
+    // tempData.removeRange(0, lengthData);
+
+  }
 
   
   @override
@@ -157,32 +156,44 @@ class _ChartDoubleState extends State<ChartDouble> with AutomaticKeepAliveClient
 
 }
 
-
-List<LiveData> getChartData(){
-  final List<LiveData> _chartDate = [
-
+//*Data Heart
+List<HeartData> getChartData(){
+  final List<HeartData> _chartDate = [
   ];
   return _chartDate;
 }
 
-List<ChartData> getChartData2(){
-  final List<ChartData> _chartDate2 = [
+class HeartData{
+  HeartData(this.time, this.value);
+  final DateTime time;
+  final int value;
 
+  factory HeartData.fromJson(Map<dynamic,dynamic> parsedJson){
+    return HeartData(
+      parsedJson['time'],
+      parsedJson['value'],
+    );
+  }  }
+
+//*Data SPo2
+List<Spo2Data> getChartData2(){
+  final List<Spo2Data> _chartDate = [
   ];
-  return _chartDate2;
+  return _chartDate;
 }
 
+class Spo2Data{
+  Spo2Data(this.time, this.value);
+  final DateTime time;
+  final int value;
 
-class LiveData{
-  LiveData(this.time, this.bpm);
- final DateTime time;
- final double bpm;
-}
+  factory Spo2Data.fromJson(Map<dynamic,dynamic> parsedJson){
+    return Spo2Data(
+      parsedJson['time'],
+      parsedJson['value'],
+    );
+  }  }
 
-class ChartData{
-  ChartData(this.time, this.spo2);
- final DateTime time;
- final double spo2;
-}
+
 
 

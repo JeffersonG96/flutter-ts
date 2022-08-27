@@ -7,7 +7,9 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
 class DataChartService with ChangeNotifier {
-   final _storage = new FlutterSecureStorage();
+
+  var responseData = '';
+  final _storage = new FlutterSecureStorage();
 
    static Future<String?> getToken() async {
   final _storage = new FlutterSecureStorage();
@@ -15,7 +17,9 @@ class DataChartService with ChangeNotifier {
   return token;
 }
 
-  Future<List<Msg>> getDataChart() async {
+  Future getDataChart() async {
+
+  try {
     
   final token = await this._storage.read(key: 'token') ?? '1211';
   print('este es el token $token');
@@ -27,15 +31,15 @@ class DataChartService with ChangeNotifier {
       }
   );
 
-  //  if ( resp.statusCode == 200){
-  final dataChartResponse = dataChartResponseFromJson(resp.body);
-  print('llego data chart');
-  return dataChartResponse.msg;
-   
+  // axisX = resp.body[1][0];
+  // final finalResponse = dataChartResponseFromJson(resp.body);
+  responseData = resp.body;
+  return responseData;
 
+  } catch (e) {
+    print(e);
+  } 
   }
-
-
 
 
 }

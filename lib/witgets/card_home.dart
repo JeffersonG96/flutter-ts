@@ -137,7 +137,7 @@ class CardChartHome extends StatelessWidget {
         borderRadius: BorderRadius.circular(24),
          child: Card(      
             color: Colors.grey[300],
-            child:  ChartSfCartesian(nameChart:'Temperatura', temp: authMqtt.temp.toDouble()),
+            child:  ChartSfCartesian(),
          ) ) );
   }
 }

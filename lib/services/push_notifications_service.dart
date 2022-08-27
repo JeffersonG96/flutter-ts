@@ -12,19 +12,22 @@ class PushNotificationsService {
   static StreamController<String> _messageStream = new StreamController.broadcast();
   static Stream<String> get messagesStream => _messageStream.stream;
 
+  //*send title and body 
+
+
   static Future _backgroundHandler(RemoteMessage message) async {
     print('background Handler ${message.messageId}');
-    _messageStream.add(message.notification?.title ?? 'No body');
+    _messageStream.add(message.notification?.body ?? 'No title');
   }
 
   static Future _onMessageHandler(RemoteMessage message) async {
     print('on Message Handler ${message.messageId}');
-     _messageStream.add(message.notification?.title ?? 'No body');
+     _messageStream.add(message.notification?.body ?? 'No title');
   } 
 
   static Future _onMessageOpenApp(RemoteMessage message) async {
     print('on Message Open App ${message.messageId}');
-     _messageStream.add(message.notification?.title ?? 'No body');
+     _messageStream.add(message.notification?.body ?? 'No title');
   }
 
   

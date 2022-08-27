@@ -1,28 +1,27 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:app_login/providers/bar_provider.dart';
 import 'package:app_login/services/data_chart_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:intl/intl.dart';
-import 'dart:math' as math;
-
-import 'package:app_login/models/data_chart_response.dart';
-
 
 
 //Chart
 class ChartSfCartesian extends StatefulWidget {
 
-  final  double temp;
-  final String nameChart;
+  
+  // final  double temp;
+  // final String nameChart;
 
-  const ChartSfCartesian({
-    Key? key, 
-    required this.nameChart, 
-    required this.temp, 
-    // required this.temp, 
-  }) : super(key: key);
+  // const ChartSfCartesian({
+  //   Key? key, 
+  //   required this.nameChart, 
+  //   required this.temp, 
+  //   // required this.temp, 
+  // }) : super(key: key);
 
   @override
   State<ChartSfCartesian> createState() => _ChartSfCartesianState();
@@ -31,30 +30,30 @@ class ChartSfCartesian extends StatefulWidget {
 
 class _ChartSfCartesianState extends State<ChartSfCartesian> with AutomaticKeepAliveClientMixin {
   
+  List<TemperaturaData> tempData = [];
   late DataChartService dataChartService;
-  List<Msg> _getData = [];
+  late BarProvider barProvider;
+
+
   //  late Timer temp;
-  late List<LiveData> chartData;
   late TooltipBehavior _tooltipBehavior;
-  late ChartSeriesController _chartSeriesController;
   late ZoomPanBehavior _zoomPanBehavior;
   double function = 10;
-  int count=0;
+  int counter = 0;
+  // DateTime x = DateTime.now();
 
   @override
   void initState() {
     super.initState();
 
-    this.dataChartService = Provider.of<DataChartService>(context, listen: false);
-  
-    chartData = getChartData();
+    Timer.periodic( const Duration(seconds: 10), caragarData);
+    tempData=getChartData();
+    dataChartService = Provider.of<DataChartService>(context, listen: false);
     _zoomPanBehavior = ZoomPanBehavior(enablePinching: true, zoomMode: ZoomMode.x, maximumZoomLevel:0.8); //hacer zoom con doble toque
     _tooltipBehavior = TooltipBehavior(enable: true);
-    Timer.periodic( Duration(seconds: 10), updateDataSource);
+    caragarData(1);
 
-    print('pasa Timer');
   }
-
 
 
   @override
@@ -66,21 +65,18 @@ class _ChartSfCartesianState extends State<ChartSfCartesian> with AutomaticKeepA
       height: 230,
       child: SfCartesianChart(
       zoomPanBehavior: _zoomPanBehavior,
-      title: ChartTitle(text: widget.nameChart, textStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 17)),
+      title: ChartTitle(text: 'Temperatura', textStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 17)),
       plotAreaBorderWidth: 2, //lineas del fondo del gráfico
       legend: Legend(isVisible: false),
       tooltipBehavior: _tooltipBehavior, //*muestra los datos de cada punto
       
       //<LiveData, DateTime>
       series: <ChartSeries>[
-      LineSeries<LiveData, DateTime>(
-      onRendererCreated: (ChartSeriesController conttroller){
-        _chartSeriesController = conttroller;
-      },
-      dataSource: chartData,
+      LineSeries<TemperaturaData, DateTime>(
+      dataSource: tempData,
       name: 'Temperatura',
-      xValueMapper: (LiveData sales, _) => sales.time,
-      yValueMapper: (LiveData sales, _) => sales.sales 
+      xValueMapper: (TemperaturaData sales, _) => sales.time,
+      yValueMapper: (TemperaturaData sales, _) => sales.value 
       ),
       
       ],
@@ -88,9 +84,10 @@ class _ChartSfCartesianState extends State<ChartSfCartesian> with AutomaticKeepA
         majorGridLines: const MajorGridLines(width: 0),
         edgeLabelPlacement: EdgeLabelPlacement.shift,
         intervalType: DateTimeIntervalType.minutes,
-        
+        // rangePadding: ChartRangePadding.round,
         // minimum: DateTime.now(),
-        // interval: 1,
+        // maximum: DateTime.now(),
+        // interval: 20,
         // title: AxisTitle(text: 'Segundos'),
         ),
       primaryYAxis: NumericAxis(
@@ -107,53 +104,54 @@ class _ChartSfCartesianState extends State<ChartSfCartesian> with AutomaticKeepA
     
   }
 
-    int time = 19;
-  void updateDataSource(Timer temp) {
-    print('updatexxxx');
-    final dateTime = DateTime.now();
-    function = (math.Random().nextInt(60) + 30);
-    // setState(() {
-    //   function;
-    // });
-    chartData.add(LiveData(dateTime, widget.temp));
-    print('xxxxxxxxxxx');
-    print(dateTime);
-    print(widget.temp);
-    print('xxxxxxxxxxx');
-    print('Longitud de LISTA: ${chartData.length}');
-    if(chartData.length == 100){
-    chartData.removeAt(0);
-    _chartSeriesController.updateDataSource(
-    addedDataIndex: chartData.length - 1, 
-    removedDataIndex: 0,
-    ); 
-    } else {
-      _chartSeriesController.updateDataSource(
-        addedDataIndex: chartData.length -1,
-      );
-    }
-  }
   
   @override
   bool get wantKeepAlive => true;
-  
 
+
+ void caragarData(nul) async {
+ 
+  final jsonInt = await dataChartService.getDataChart();
+
+  final dynamic jsonResponse = json.decode(jsonInt);
+    tempData = []; //elimina toda la lista
+
+    for (Map<dynamic,dynamic> i in jsonResponse['msg']){
+
+      if(i['variable'] =='temp'){
+      final Map<dynamic,dynamic> updateMap = i;
+      final DateTime date1 = DateTime.fromMillisecondsSinceEpoch( updateMap['time']);
+      updateMap['time'] = date1;
+      tempData.add(TemperaturaData.fromJson(updateMap));
+      }//if
+
+      }
+    counter++;
+    if(mounted){
+     setState(() {
+       counter;
+     }); }
+    // tempData.removeRange(0, lengthData);
+}
 }
 
-
-List<LiveData> getChartData(){
-  final List<LiveData> _chartDate = [
-    LiveData(DateTime.now(), 10),
-    LiveData(DateTime.now(), 50),
+List<TemperaturaData> getChartData(){
+  final List<TemperaturaData> _chartDate = [
   ];
   return _chartDate;
 }
 
 
-class LiveData{
-  LiveData(this.time, this.sales);
- final DateTime time;
- final double sales;
-}
+class TemperaturaData{
+  TemperaturaData(this.time, this.value);
+  final DateTime time;
+  final int value;
+
+  factory TemperaturaData.fromJson(Map<dynamic,dynamic> parsedJson){
+    return TemperaturaData(
+      parsedJson['time'],
+      parsedJson['value'],
+    );
+  }  }
 
 
