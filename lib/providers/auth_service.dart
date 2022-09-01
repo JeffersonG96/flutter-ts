@@ -146,7 +146,8 @@ Future<bool> estaLogeado() async {
 
 //*ENVIAR ID 
 Future<Map> sendId() async{
-  this.autenticando = true; //deshabilita botón
+
+  final token = await this._storage.read(key: 'token') ?? '';
 
   final data = {
     'uid': usuario?.uid ?? '121212',
@@ -156,7 +157,8 @@ Future<Map> sendId() async{
   final resp = await http.post(uri, 
       body: jsonEncode(data),
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'x-token': token
       }
   );
 

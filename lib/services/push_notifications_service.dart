@@ -4,8 +4,9 @@ import 'dart:async';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 
-class PushNotificationsService {
+class PushNotificationsService with ChangeNotifier{
   // identifica el id del proyecto 
   static FirebaseMessaging messaging = FirebaseMessaging.instance;
   static String? token;

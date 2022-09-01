@@ -26,7 +26,6 @@ class _MyAppState extends State<MyApp> {
   // final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
   final GlobalKey<ScaffoldMessengerState> messangerKey = new GlobalKey<ScaffoldMessengerState>();
 
-
   @override
   void initState() {
     super.initState();

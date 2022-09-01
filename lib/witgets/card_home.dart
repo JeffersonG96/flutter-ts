@@ -32,7 +32,7 @@ class CardHome extends StatelessWidget {
       ),
       
       // ChartSfCartesian(nameChart:'Temperatura', temp: authMqtt.temp.toDouble()),
-      CardChartHome(),
+      const CardChartHome(),
 
         Table(
           children: [
@@ -43,16 +43,8 @@ class CardHome extends StatelessWidget {
             ] ),
           ] ),
 
-          CardChartDouble(),
+          const CardChartDouble(),
     
-        Table(
-          children: const [
-          TableRow(
-            children: [
-              _cardTable(titulo: 'Presión Arterial',valorMqtt: '90',icon: Icons.timeline, unidad: 'mmHg',),
-              _cardTable(titulo: 'Casa', valorMqtt: '100',icon: Icons.house_outlined, unidad: 'Normal',),
-            ] ),
-          ])
       ]
     );
 

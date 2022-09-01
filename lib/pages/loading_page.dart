@@ -14,9 +14,19 @@ class LoadingPage extends StatelessWidget {
       body: FutureBuilder(
         future: checkLoginState(context),
         builder: ( context, snapshot) { 
-          return const Center(
-          child: Text('Cargado Datos...'),
-           );
+          return SafeArea(
+            child: Container(
+              height: double.infinity,
+              width: double.infinity,
+              color: Colors.grey[300],
+            child: Column(children: const [
+              SizedBox(height: 150),
+              Text('Cargado Datos...', textAlign: TextAlign.center,style: TextStyle(color: Colors.indigo ,fontWeight: FontWeight.bold, fontSize: 25)),
+              SizedBox(height: 100),
+              CircularProgressIndicator.adaptive(backgroundColor: Colors.indigo, )
+            ]),
+             ),
+          );
          },
       ),
    );
