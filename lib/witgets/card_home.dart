@@ -15,7 +15,7 @@ class CardHome extends StatelessWidget {
    final authMqtt = Provider.of<AuthMqtt>(context);
    //convertir a String las variables 
    final temp = authMqtt.temp.toString();
-   final status = authMqtt.status.toString();
+  //  final status = authMqtt.status.toString();
    print('DESDE HOME - TEMPERATURA: $temp');
    
 
@@ -25,8 +25,8 @@ class CardHome extends StatelessWidget {
         children: [
           TableRow(
             children: [
-              _cardTable(titulo: 'Estabilidad',valorMqtt: status,icon: Icons.accessibility,unidad: 'Estable',),
-              _cardTable(titulo:'Temperatura', valorMqtt: temp, icon: Icons.thermostat, unidad: '°C',),
+              _cardTable(titulo: 'Estabilidad',valorMqtt: authMqtt.status,icon: Icons.accessibility,unidad: 'Estable', fontSize: 23),
+              _cardTable(titulo:'Temperatura', valorMqtt: temp, icon: Icons.thermostat, unidad: '°C', fontSize: 35,),
             ] ),
         ],
       ),
@@ -38,8 +38,8 @@ class CardHome extends StatelessWidget {
           children: [
           TableRow(
             children: [
-              _cardTable(titulo: 'Frecuencia Cardiaca', valorMqtt: authMqtt.heart.toString(), icon: Icons.favorite, unidad: 'BPM',),
-              _cardTable(titulo: 'Pulsioxímetro',valorMqtt: authMqtt.spo2.toString(), icon: Icons.show_chart,unidad: 'SPO2',),
+              _cardTable(titulo: 'Frecuencia Cardiaca', valorMqtt: authMqtt.heart.toString(), icon: Icons.favorite, unidad: 'BPM', fontSize: 35,),
+              _cardTable(titulo: 'Pulsioxímetro',valorMqtt: authMqtt.spo2.toString(), icon: Icons.show_chart,unidad: 'SPO2', fontSize: 35,),
             ] ),
           ] ),
 
@@ -57,13 +57,15 @@ class _cardTable extends StatelessWidget {
   final String valorMqtt;
   final IconData icon;
   final String unidad;
+  final double fontSize;
 
   const _cardTable({
     Key? key, 
     required this.titulo, 
     required this.valorMqtt, 
     required this.icon, 
-    required this.unidad,
+    required this.unidad, 
+    required this.fontSize,
   }) : super(key: key);
 
   @override
@@ -87,7 +89,7 @@ class _cardTable extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [  //!valor mqtt
-                    Text(valorMqtt,style: TextStyle(color: Colors.indigo,fontWeight: FontWeight.bold, fontSize: 35)),
+                    Text(valorMqtt,style: TextStyle(color: Colors.indigo,fontWeight: FontWeight.bold, fontSize: fontSize)),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [  //!icono

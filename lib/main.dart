@@ -35,6 +35,7 @@ class _MyAppState extends State<MyApp> {
       print('MyApp: $message');
 
       final snackBar = SnackBar(
+        duration: const Duration(minutes: 1),
         content: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [

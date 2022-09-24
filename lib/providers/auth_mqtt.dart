@@ -18,10 +18,10 @@ class AuthMqtt with ChangeNotifier {
 
 Map dataMqtt = {};
 String mainTopic = "";
-var temp = 0;
-var status = 0;
-var heart = 0;
-var spo2 = 0;
+var temp = 35;
+String status = "";
+var heart = 80;
+var spo2 = 98;
 
 final client = MqttServerClient.withPort('192.168.100.160', 'clientIdentifier', 1883);
 var pongCount = 0;

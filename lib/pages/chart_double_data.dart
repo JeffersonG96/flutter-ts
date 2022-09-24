@@ -117,12 +117,13 @@ class _ChartDoubleState extends State<ChartDouble> with AutomaticKeepAliveClient
   void updateDataSource(heart) async {
 
     final jsonInt = await dataChartService.getDataChart();
- 
+    if(jsonInt != null){
     final dynamic jsonResponse = json.decode(jsonInt);
     heartData = []; //elimina toda la lista
     spo2Data = []; //elimina toda la lista
-    
-    for (Map<dynamic,dynamic> i in jsonResponse['msg']){
+  
+    for (Map<dynamic,dynamic> i in jsonResponse['heart']){
+      print(i);
       //*Heart
       if(i['variable'] =='heart'){
         final Map<dynamic,dynamic> updateMap = i;
@@ -130,23 +131,26 @@ class _ChartDoubleState extends State<ChartDouble> with AutomaticKeepAliveClient
         updateMap['time'] = date1;
         heartData.add(HeartData.fromJson(updateMap));
       }//if
+      }
 
       //*Spo2
+    for (Map<dynamic,dynamic> i in jsonResponse['spo2']) {
+      
       if(i['variable'] =='spo2'){
         Map<dynamic,dynamic> updateMap = i;
         DateTime date1 = DateTime.fromMillisecondsSinceEpoch( updateMap['time']);
         updateMap['time'] = date1;
         spo2Data.add(Spo2Data.fromJson(updateMap)); 
       }
+    }
 
-      }
     counter++;
     if(mounted){
      setState(() {
        counter;
      }); }
     // tempData.removeRange(0, lengthData);
-
+  }
   }
 
   

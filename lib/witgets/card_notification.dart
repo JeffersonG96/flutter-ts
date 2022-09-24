@@ -11,7 +11,7 @@ class CardNotification extends StatelessWidget {
     String messageBody = 'Estado del paciente normal';
     bool change = false;
 
-    if(authMqtt.status == 1){
+    if(authMqtt.status == 'En el piso'){
       messageBody = 'Se detecto una caída';
       change = true;
     }

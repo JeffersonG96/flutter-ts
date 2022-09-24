@@ -111,13 +111,14 @@ class _ChartSfCartesianState extends State<ChartSfCartesian> with AutomaticKeepA
 
  void caragarData(nul) async {
  
+ 
   final jsonInt = await dataChartService.getDataChart();
 
+  if(jsonInt != null){
   final dynamic jsonResponse = json.decode(jsonInt);
     tempData = []; //elimina toda la lista
-
-    for (Map<dynamic,dynamic> i in jsonResponse['msg']){
-
+    for (Map<dynamic,dynamic> i in jsonResponse['temp']){
+      print(i);
       if(i['variable'] =='temp'){
       final Map<dynamic,dynamic> updateMap = i;
       final DateTime date1 = DateTime.fromMillisecondsSinceEpoch( updateMap['time']);
@@ -131,6 +132,7 @@ class _ChartSfCartesianState extends State<ChartSfCartesian> with AutomaticKeepA
      setState(() {
        counter;
      }); }
+}
     // tempData.removeRange(0, lengthData);
 }
 }
