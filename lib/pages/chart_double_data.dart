@@ -128,7 +128,9 @@ class _ChartDoubleState extends State<ChartDouble> with AutomaticKeepAliveClient
       if(i['variable'] =='heart'){
         final Map<dynamic,dynamic> updateMap = i;
         final DateTime date1 = DateTime.fromMillisecondsSinceEpoch( updateMap['time']);
+        final double date = updateMap['value'] +  0.0;
         updateMap['time'] = date1;
+        updateMap['value'] = date;
         heartData.add(HeartData.fromJson(updateMap));
       }//if
       }
@@ -139,7 +141,9 @@ class _ChartDoubleState extends State<ChartDouble> with AutomaticKeepAliveClient
       if(i['variable'] =='spo2'){
         Map<dynamic,dynamic> updateMap = i;
         DateTime date1 = DateTime.fromMillisecondsSinceEpoch( updateMap['time']);
+        double date = updateMap['value'] + 0.0;
         updateMap['time'] = date1;
+        updateMap['value'] = date;
         spo2Data.add(Spo2Data.fromJson(updateMap)); 
       }
     }
@@ -170,7 +174,7 @@ List<HeartData> getChartData(){
 class HeartData{
   HeartData(this.time, this.value);
   final DateTime time;
-  final int value;
+  final double value;
 
   factory HeartData.fromJson(Map<dynamic,dynamic> parsedJson){
     return HeartData(
@@ -189,7 +193,7 @@ List<Spo2Data> getChartData2(){
 class Spo2Data{
   Spo2Data(this.time, this.value);
   final DateTime time;
-  final int value;
+  final double value;
 
   factory Spo2Data.fromJson(Map<dynamic,dynamic> parsedJson){
     return Spo2Data(

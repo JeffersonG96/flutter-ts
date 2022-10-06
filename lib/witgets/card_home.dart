@@ -158,7 +158,7 @@ class CardChartDouble extends StatelessWidget {
         borderRadius: BorderRadius.circular(24),
          child: Card(      
             color: Colors.grey[300],
-            child: ChartDouble(nameChart:'BPM y SPO2', heart: authMqtt.heart.toDouble(), spo2: authMqtt.spo2.toDouble()),
+            child: ChartDouble(nameChart:'BPM y SPO2', heart: double.parse(authMqtt.heart), spo2: double.parse(authMqtt.spo2)),
          ) ) );
   }
 }

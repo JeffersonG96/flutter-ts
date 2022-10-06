@@ -19,11 +19,13 @@ class CardNotification extends StatelessWidget {
       messageBody = 'Temperatura corporal elevada';
       change = true;
     }
-    if(authMqtt.heart > 99){
+    var heartDouble = double.parse(authMqtt.heart);
+    if(heartDouble > 99){
       messageBody = 'Frecuencia cardiaca alterada';
       change = true;
     }
-    if(authMqtt.spo2 > 99){
+    var spo2Double = double.parse(authMqtt.spo2);
+    if(spo2Double > 99){
       messageBody = 'Saturación de oxígeno inestable';
       change = true;
     }

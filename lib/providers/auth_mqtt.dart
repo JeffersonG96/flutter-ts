@@ -18,10 +18,10 @@ class AuthMqtt with ChangeNotifier {
 
 Map dataMqtt = {};
 String mainTopic = "";
-var temp = 35;
+int temp = 35;
 String status = "";
-var heart = 80;
-var spo2 = 98;
+String heart = "95.6";
+String spo2 = "68.1";
 
 final client = MqttServerClient.withPort('192.168.100.160', 'clientIdentifier', 1883);
 var pongCount = 0;
@@ -102,7 +102,6 @@ client.updates!.listen((List<MqttReceivedMessage<MqttMessage>> mqttReceivedMessa
   if(mainTopic == topicSpo2){
     spo2 = data['value'];
   }
-  
   
 dataMqtt = data;
 notifyListeners();
