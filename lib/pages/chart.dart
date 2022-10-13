@@ -95,7 +95,9 @@ class _ChartSfCartesianState extends State<ChartSfCartesian> with AutomaticKeepA
         tickPosition: TickPosition.inside,
         isVisible: true, //ocultar línea y elementos del eje
         numberFormat: NumberFormat.simpleCurrency(name:'°C ',decimalDigits: 1),
-        maximum: 101,
+        maximum: 45,
+        minimum: 20
+
         // title: AxisTitle(text: 'Temperatura'),
         
         ),
@@ -118,11 +120,13 @@ class _ChartSfCartesianState extends State<ChartSfCartesian> with AutomaticKeepA
   final dynamic jsonResponse = json.decode(jsonInt);
     tempData = []; //elimina toda la lista
     for (Map<dynamic,dynamic> i in jsonResponse['temp']){
-      print(i);
+      // print(i);
       if(i['variable'] =='temp'){
       final Map<dynamic,dynamic> updateMap = i;
       final DateTime date1 = DateTime.fromMillisecondsSinceEpoch( updateMap['time']);
+      double date = updateMap['value'] + 0.0;
       updateMap['time'] = date1;
+      updateMap['value'] = date;
       tempData.add(TemperaturaData.fromJson(updateMap));
       }//if
 
@@ -147,7 +151,7 @@ List<TemperaturaData> getChartData(){
 class TemperaturaData{
   TemperaturaData(this.time, this.value);
   final DateTime time;
-  final int value;
+  final double value;
 
   factory TemperaturaData.fromJson(Map<dynamic,dynamic> parsedJson){
     return TemperaturaData(

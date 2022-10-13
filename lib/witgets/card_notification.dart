@@ -15,7 +15,8 @@ class CardNotification extends StatelessWidget {
       messageBody = 'Se detecto una caída';
       change = true;
     }
-    if(authMqtt.temp > 99){
+    var tempDouble = double.parse(authMqtt.temp);
+    if(tempDouble > 99){
       messageBody = 'Temperatura corporal elevada';
       change = true;
     }

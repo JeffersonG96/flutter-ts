@@ -15,9 +15,6 @@ class CardHome extends StatelessWidget {
    final authMqtt = Provider.of<AuthMqtt>(context);
    //convertir a String las variables 
    final temp = authMqtt.temp.toString();
-  //  final status = authMqtt.status.toString();
-   print('DESDE HOME - TEMPERATURA: $temp');
-   
 
     return Column(
       children:[ 

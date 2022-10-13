@@ -104,7 +104,8 @@ class _ChartDoubleState extends State<ChartDouble> with AutomaticKeepAliveClient
         tickPosition: TickPosition.inside,
         isVisible: true, //ocultar línea y elementos del eje
         numberFormat: NumberFormat.simpleCurrency(name:'',decimalDigits: 1),
-        maximum: 150,
+        maximum: 120,
+        minimum: 40
         // title: AxisTitle(text: 'Temperatura'),
         
         ),
@@ -123,7 +124,7 @@ class _ChartDoubleState extends State<ChartDouble> with AutomaticKeepAliveClient
     spo2Data = []; //elimina toda la lista
   
     for (Map<dynamic,dynamic> i in jsonResponse['heart']){
-      print(i);
+      // print(i);
       //*Heart
       if(i['variable'] =='heart'){
         final Map<dynamic,dynamic> updateMap = i;

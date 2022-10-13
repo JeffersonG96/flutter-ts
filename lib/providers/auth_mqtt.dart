@@ -18,7 +18,7 @@ class AuthMqtt with ChangeNotifier {
 
 Map dataMqtt = {};
 String mainTopic = "";
-int temp = 35;
+String temp = "35";
 String status = "";
 String heart = "95.6";
 String spo2 = "68.1";
@@ -75,7 +75,7 @@ client.updates!.listen((List<MqttReceivedMessage<MqttMessage>> mqttReceivedMessa
   final  recMess = mqttReceivedMessage[0].payload as  MqttPublishMessage;
   final pt = MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
   mainTopic = mqttReceivedMessage[0].topic;
-  print('Datos de MQTT: $pt');
+  // print('Datos de MQTT: $pt');
 
   final Map<String, dynamic>data = json.decode(pt);
 
@@ -89,7 +89,7 @@ client.updates!.listen((List<MqttReceivedMessage<MqttMessage>> mqttReceivedMessa
   final topicStatus = "$id/status/sdata";
     if(mainTopic == topicStatus){
     status = data['value'];  
-    print(('ESTADO: $status'));
+    // print(('ESTADO: $status'));
   }
 
   //*
