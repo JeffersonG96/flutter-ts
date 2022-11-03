@@ -21,6 +21,10 @@ class BarNavigator extends StatelessWidget {
         label: 'Home'
         ),
       BottomNavigationBarItem(
+        icon: Icon(Icons.assignment),
+        label: 'Historial'
+        ),
+      BottomNavigationBarItem(
         icon: Icon(Icons.person),
         label: 'Perfil'
         )

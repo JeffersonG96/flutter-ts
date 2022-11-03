@@ -13,11 +13,11 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Datos Vitales', textAlign: TextAlign.center),
+        title: const Text('Datos Vitales', textAlign: TextAlign.center,),
         leading: IconButton(
-          icon: Icon(Icons.logout_outlined),
+          icon: const Icon(Icons.notifications),
           onPressed:() {
-
+              // Navigator.pushNamed(context, 'historial');
           },
         ),
       ),
@@ -51,6 +51,9 @@ class _HomeScreenBody extends StatelessWidget {
       );
 
       case 1: 
+      return HistorialPage();
+
+      case 2: 
       return ProfilScreen();
 
       default:

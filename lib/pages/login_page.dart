@@ -66,13 +66,15 @@ class __FormState extends State<_Form> {
             icon: Icons.person, 
             placeholder: 'Correo Electrónico', 
             textController: emailCtrl,
-            keyboardType: TextInputType.emailAddress,
+            keyboardType: TextInputType.emailAddress, 
+            labelText: 'Correo',
             ),
           CustomInput(
             icon: Icons.lock_outline, 
             placeholder: 'Contraseña', 
             textController: passCtrl,
-            isPassword: true,
+            isPassword: true, 
+            labelText: 'Contraseña',
             ),
           
         BotonInOutPut(

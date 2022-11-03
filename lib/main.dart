@@ -60,6 +60,8 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) => BarProvider()),
         ChangeNotifierProvider(create: (_) => AuthMqtt()),
         ChangeNotifierProvider(create: (_) => DataChartService()),
+        ChangeNotifierProvider(create: (_) => MedicalHistoryServices()),
+        ChangeNotifierProvider(create: (_) => NewAlertService()),
       ],
       
       child: MaterialApp(

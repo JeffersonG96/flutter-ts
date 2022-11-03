@@ -76,7 +76,8 @@ class __FormState extends State<_Form> {
               icon: Icons.person_outline_rounded, 
               placeholder: 'Nombre y apellido', 
               textController: nameCtrl,
-              keyboardType: TextInputType.text,
+              keyboardType: TextInputType.text, 
+              labelText: 'Nombre',
               ),
             // CustomInput(
             //   icon: Icons.person_outline_outlined, 
@@ -88,13 +89,15 @@ class __FormState extends State<_Form> {
               icon: Icons.mail_outline_outlined, 
               placeholder: 'Correo Electrónico', 
               textController: emailCtrl,
-              keyboardType: TextInputType.emailAddress,
+              keyboardType: TextInputType.emailAddress, 
+              labelText: 'Correo',
               ),
             CustomInput(
               icon: Icons.lock_outline, 
               placeholder: 'Contraseña', 
               textController: passCtrl,
-              isPassword: true,
+              isPassword: true, 
+              labelText: 'Contraseña',
               ),
             
           BotonInOutPut(

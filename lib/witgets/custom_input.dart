@@ -4,6 +4,7 @@ class CustomInput extends StatelessWidget {
 
   final IconData icon;
   final String placeholder;
+  final String labelText;
   final TextEditingController textController;
   final TextInputType keyboardType;
   final bool isPassword;
@@ -14,7 +15,8 @@ class CustomInput extends StatelessWidget {
   required this.placeholder, 
   required this.textController, 
   this.keyboardType = TextInputType.text, 
-  this.isPassword = false,
+  this.isPassword = false, 
+  required this.labelText,
   
     }) : super(key: key);
 
@@ -45,6 +47,8 @@ class CustomInput extends StatelessWidget {
                 focusedBorder: InputBorder.none,
                 border: InputBorder.none,
                 hintText: this.placeholder,
+                labelText: labelText,
+                labelStyle: const TextStyle(color: Colors.black87,fontWeight: FontWeight.w400),
                  ),
             )
             ); 
