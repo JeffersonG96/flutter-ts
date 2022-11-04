@@ -1,16 +1,18 @@
 
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:app_login/global/environment.dart';
 import 'package:app_login/models/historial_response.dart';
+import 'package:app_login/models/medical_history_response.dart';
 import 'package:app_login/providers/auth_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
 class MedicalHistoryServices with ChangeNotifier {
 
-
+  String enfermedad = 'Ninguna';
+  bool status = false;
 
   Future<List<MedicalHistory>> getHistorial() async {
   
@@ -24,6 +26,11 @@ class MedicalHistoryServices with ChangeNotifier {
 
   final historialResp = historialResponseFromJson(resp.body);
   print("historial: $historialResp");
+  Map<String, dynamic> bodyHistorial = jsonDecode(resp.body);
+
+  enfermedad = bodyHistorial['medicalHistory'][0]['enfermedad'];
+  status = bodyHistorial['medicalHistory'][0]['status'];
+
   return historialResp.medicalHistory;
 
   }

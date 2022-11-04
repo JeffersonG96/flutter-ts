@@ -1,3 +1,5 @@
+
+export 'package:app_login/services/medical_history_services.dart';
 export 'package:app_login/services/new_alert_service.dart';
 
 export 'package:app_login/services/medical_history_services.dart';

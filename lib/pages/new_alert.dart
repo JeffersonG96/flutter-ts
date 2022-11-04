@@ -1,7 +1,7 @@
 import 'package:app_login/helpers/mostrar_alerta.dart';
-import 'package:app_login/pages/pages.dart';
+import 'package:app_login/models/body_alert_response.dart';
+import 'package:app_login/models/historial_response.dart';
 import 'package:app_login/providers/providers.dart';
-import 'package:app_login/witgets/boton_azul.dart';
 import 'package:app_login/witgets/custom_input.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +15,7 @@ class NewAlertPage extends StatefulWidget {
 
 class _NewAlertPageState extends State<NewAlertPage> {
 
+  late MedicalHistoryServices medicalHistoryServices;
   final _enfermedad = TextEditingController();
   final _medicamento = TextEditingController();
 
@@ -28,10 +29,18 @@ class _NewAlertPageState extends State<NewAlertPage> {
   int time = 0;
 
   @override
+  void initState() {
+    super.initState();
+    this.medicalHistoryServices = Provider.of<MedicalHistoryServices>(context,listen: false);
+  }
+
   Widget build(BuildContext context) {
 
     final newAlertService = Provider.of<NewAlertService>(context);
-
+    setState(() {
+      medicalHistoryServices.status;
+      medicalHistoryServices.enfermedad;
+    });
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -43,7 +52,6 @@ class _NewAlertPageState extends State<NewAlertPage> {
             child: Column(
               children: [
         
-                // Switch(title: 'Eliminar alerta', subtitle: 'Datos',),
                 Container(
                 margin: EdgeInsets.only(top: 10),
                   decoration: BoxDecoration(
@@ -52,15 +60,22 @@ class _NewAlertPageState extends State<NewAlertPage> {
                 child: SwitchListTile.adaptive(
                   activeColor: Colors.indigo,
                   title: Text('Eliminar alerta', style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18)),
-                  subtitle: Text('Datos'),
+                  subtitle: Text(medicalHistoryServices.status ?  medicalHistoryServices.enfermedad : 'Ninguna'),
                   value: switchDelete , 
-                  onChanged: (value){
+                  onChanged: (value) async {
                     switchNewAlert = false;
                   switchDelete = value;
-                    setState(() {
-                      if(value)
-                      print('Eliminando alerta');
-                  }); } ),
+                    setState(() { });
+                      if(value)  {
+                        final resp = await newAlertService.updateAlert(false);
+
+                        if(resp){
+                          mostrarAlerta(context, 'Alerta eliminada','No se recibirá mas alertas sobre el estado de salud');
+                        } else {
+                          mostrarAlerta(context, 'Error al eliminar','No se pudo eliminar la alerta');
+                        }                      }
+
+                  } ),
                   ),
 
                 Container(
@@ -100,7 +115,6 @@ class _NewAlertPageState extends State<NewAlertPage> {
                               time = 60;
                             check1H = value ?? false;
                             if(!check1H){time = 0;}
-                            print('valor de check1: $check1H');
                           })
                           : null
                           ),
@@ -114,9 +128,6 @@ class _NewAlertPageState extends State<NewAlertPage> {
                             time = 240;
                             check4H = value ?? false;
                             if(!check4H){time = 0;}
-                            
-                            print('valor de check4: $check4H');
-                           
                           })
                           : null
                           ),

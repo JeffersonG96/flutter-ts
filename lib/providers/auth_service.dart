@@ -122,9 +122,6 @@ Future<bool> estaLogeado() async {
       }
   );
 
-//  _storage.delete(key: 'token'); 
-
-  // print('PARA ELIMINAR ${token}');
 
   //Confirmar si la peticion se hizo correctamente 
   if ( resp.statusCode == 200) {
@@ -140,7 +137,8 @@ Future<bool> estaLogeado() async {
     return false;
   }
 
-} //estaLogeado
+} 
+//estaLogeado
 
 
 

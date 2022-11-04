@@ -1,4 +1,5 @@
-import 'package:app_login/models/historial_response.dart';
+import 'package:app_login/models/medical_history_response.dart';
+import 'package:app_login/providers/providers.dart';
 import 'package:app_login/services/medical_history_services.dart';
 import 'package:app_login/witgets/boton_azul.dart';
 import 'package:app_login/witgets/box_historial.dart';

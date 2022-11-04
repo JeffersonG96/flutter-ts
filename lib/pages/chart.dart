@@ -115,7 +115,6 @@ class _ChartSfCartesianState extends State<ChartSfCartesian> with AutomaticKeepA
  
  
   final jsonInt = await dataChartService.getDataChart();
-
   if(jsonInt != null){
   final dynamic jsonResponse = json.decode(jsonInt);
     tempData = []; //elimina toda la lista
@@ -137,9 +136,10 @@ class _ChartSfCartesianState extends State<ChartSfCartesian> with AutomaticKeepA
        counter;
      }); }
 }
+  }
     // tempData.removeRange(0, lengthData);
 }
-}
+
 
 List<TemperaturaData> getChartData(){
   final List<TemperaturaData> _chartDate = [

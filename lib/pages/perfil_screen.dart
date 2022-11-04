@@ -49,29 +49,6 @@ class ProfilScreen extends StatelessWidget {
 
                   },),
 
-                   ListTile(title: Text('PROBAR'), subtitle: Text(''),trailing: const Icon(Icons.logout),iconColor: Colors.indigo, onTap: () async {
-
-                    //!Salir de la cuenta **************
-                    //TODO desconectar del broker mqtt
-
-                    // final route = MaterialPageRoute(
-                    //   builder: (context) => LoginPage()
-                    //   );
-                    print('TOCO PROBAR');
-                    final idOk = await authService.sendId();
-                    print('desde probar');
-                    print(idOk);
-                    
-                    // authMqtt.mqttConnect();
-                    
-
-                    // authResource.listResource();
-                    // update();
-
-
-                  },),
-
-
                    const SizedBox(height: 10,),
                    const Divider(color: Colors.indigo, thickness: 1,),
                   ListTile(title: Text('Usuario'), subtitle: Text(usuario?.nombre ?? 'Sin Nombre'),trailing: const Icon(Icons.account_circle), iconColor: Colors.indigo,),
