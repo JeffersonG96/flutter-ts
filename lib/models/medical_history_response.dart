@@ -30,9 +30,9 @@ class MedicalHistory {
     int counter;
     String enfermedad;
     String medicamento;
-    int temperatura;
-    int frecuenciaC;
-    int spO2;
+    double temperatura;
+    double frecuenciaC;
+    double spO2;
     int time;
     DateTime createdAt;
     DateTime updatedAt;
@@ -44,9 +44,9 @@ class MedicalHistory {
         counter: json["counter"],
         enfermedad: json["enfermedad"],
         medicamento: json["medicamento"],
-        temperatura: json["temperatura"],
-        frecuenciaC: json["frecuenciaC"],
-        spO2: json["spO2"],
+        temperatura: json["temperatura"] + 0.0,
+        frecuenciaC: json["frecuenciaC"] + 0.0,
+        spO2: json["spO2"] + 0.0,
         time: json["time"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),

@@ -22,6 +22,7 @@ String temp = "35";
 String status = "";
 String heart = "95.6";
 String spo2 = "68.1";
+double battery = 3.70;
 
 final client = MqttServerClient.withPort('192.168.100.160', 'clientIdentifier', 1883);
 var pongCount = 0;
@@ -103,6 +104,11 @@ client.updates!.listen((List<MqttReceivedMessage<MqttMessage>> mqttReceivedMessa
     spo2 = data['value'];
   }
   
+  final topicBattery = "$id/battery/sdata";
+  if(mainTopic == topicBattery){
+    battery = data['value'];
+  }
+
 dataMqtt = data;
 notifyListeners();
 });
